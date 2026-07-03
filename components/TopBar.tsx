@@ -14,7 +14,7 @@ export default function TopBar({ mode = "home", coinBalance, onBack }: TopBarPro
       {mode === "home" ? (
         <>
           <Pressable style={styles.iconButton} hitSlop={8}>
-            <Ionicons name="notifications-outline" size={20} color={colors.textPrimary} />
+            <Ionicons name="notifications" size={20} color={colors.textPrimary} />
           </Pressable>
           <Text style={styles.logo}>FalaBak</Text>
         </>

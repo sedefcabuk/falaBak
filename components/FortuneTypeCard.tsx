@@ -15,14 +15,16 @@ const ICONS: Record<string, keyof typeof Ionicons.glyphMap> = {
 interface FortuneTypeCardProps {
   item: FortuneType;
   onPress?: (item: FortuneType) => void;
+  columns?: number;
 }
 
-export default function FortuneTypeCard({ item, onPress }: FortuneTypeCardProps) {
+export default function FortuneTypeCard({ item, onPress, columns = 3 }: FortuneTypeCardProps) {
   const accent = fortuneAccents[item.id] ?? colors.primary;
+  const flexBasis = columns >= 4 ? "23%" : "31%";
 
   return (
     <Pressable
-      style={({ pressed }) => [styles.card, pressed && styles.pressed]}
+      style={({ pressed }) => [styles.card, { flexBasis }, pressed && styles.pressed]}
       onPress={() => onPress?.(item)}
     >
       {item.badge ? (
@@ -40,7 +42,6 @@ export default function FortuneTypeCard({ item, onPress }: FortuneTypeCardProps)
 
 const styles = StyleSheet.create({
   card: {
-    flexBasis: "31%",
     backgroundColor: colors.card,
     borderRadius: radius.lg,
     paddingVertical: spacing.md,

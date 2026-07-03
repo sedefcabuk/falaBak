@@ -1,4 +1,4 @@
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 import { ScrollView, StyleSheet, Text, View } from "react-native";
 import { useRouter } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
@@ -11,7 +11,10 @@ import BottomNav from "../components/BottomNav";
 import FortuneTypeCard from "../components/FortuneTypeCard";
 import LifeBalanceCard from "../components/LifeBalanceCard";
 import ActivityRow from "../components/ActivityRow";
+import HomeSkeleton from "../components/HomeSkeleton";
 import { useCountdown } from "../hooks/useCountdown";
+import { useResponsive } from "../hooks/useResponsive";
+import { useCoin } from "../contexts/CoinContext";
 import { colors, gradients, radius, spacing, typography } from "../theme/theme";
 import type { Activity, FalaBakData, FortuneType, NavTab } from "../types/data";
 
@@ -19,11 +22,19 @@ const data = rawData as FalaBakData;
 
 export default function HomeScreen() {
   const router = useRouter();
+  const { balance } = useCoin();
+  const { columns, contentMaxWidth, horizontalPadding } = useResponsive();
   const [activeTab, setActiveTab] = useState<string>("home");
+  const [isLoading, setIsLoading] = useState(true);
 
-  const { user, dailyQuote, promotion, fortuneTypes, lifeBalance, activities, navTabs } = data;
+  const { dailyQuote, promotion, fortuneTypes, lifeBalance, activities, navTabs, user } = data;
 
   const countdown = useCountdown(promotion.endsAt, promotion.countdownDurationSeconds);
+
+  useEffect(() => {
+    const timer = setTimeout(() => setIsLoading(false), 500);
+    return () => clearTimeout(timer);
+  }, []);
 
   const handleFortunePress = (item: FortuneType) => {
     if (item.route === "tarot") {
@@ -36,14 +47,29 @@ export default function HomeScreen() {
   };
 
   const handleActivityPress = (_item: Activity) => {
-    
+    // Etkinlik akışları bu case study kapsamı dışında.
   };
+
+  if (isLoading) {
+    return <HomeSkeleton />;
+  }
 
   return (
     <SafeAreaView style={styles.safe} edges={["top"]}>
-      <TopBar mode="home" coinBalance={user.coinBalance} />
+      <TopBar mode="home" coinBalance={balance} />
 
-      <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        contentContainerStyle={[
+          styles.scrollContent,
+          {
+            paddingHorizontal: horizontalPadding,
+            maxWidth: contentMaxWidth,
+            alignSelf: "center",
+            width: "100%",
+          },
+        ]}
+        showsVerticalScrollIndicator={false}
+      >
         <Text style={styles.welcome}>
           Hoş Geldin, <Text style={styles.welcomeName}>{user.firstName}</Text>
         </Text>
@@ -58,35 +84,47 @@ export default function HomeScreen() {
           <View style={styles.quoteGlyph}>
             <Ionicons name="moon" size={18} color={colors.goldSoft} />
           </View>
-          <Text style={styles.quoteText}>“{dailyQuote.text}”</Text>
+          <Text style={styles.quoteText}>"{dailyQuote.text}"</Text>
           <Text style={styles.quoteAuthor}>{dailyQuote.author}</Text>
         </LinearGradient>
 
         {/* Promotion / Countdown */}
         <LinearGradient
-          colors={gradients.promoCard}
+          colors={countdown.isExpired ? gradients.promoExpired : gradients.promoCard}
           start={{ x: 0, y: 0 }}
           end={{ x: 1, y: 1 }}
           style={styles.promoCard}
         >
-          <View style={styles.promoRow}>
-            <View style={styles.promoBadge}>
-              <Text style={styles.promoBadgeText}>{promotion.badgeLabel}</Text>
+          {countdown.isExpired ? (
+            <View style={styles.promoExpiredRow}>
+              <Ionicons name="time-outline" size={18} color={colors.textSecondary} />
+              <Text style={styles.promoExpiredText}>
+                Bu kampanyanın süresi doldu — yeni fırsatlar yakında
+              </Text>
             </View>
-            <Text style={styles.promoTitle}>{promotion.title}</Text>
-          </View>
-          <Text
-            style={[styles.countdownText, countdown.isExpired && styles.countdownExpired]}
-          >
-            {countdown.label}
-          </Text>
+          ) : (
+            <>
+              <View style={styles.promoRow}>
+                <View style={styles.promoBadge}>
+                  <Text style={styles.promoBadgeText}>{promotion.badgeLabel}</Text>
+                </View>
+                <Text style={styles.promoTitle}>{promotion.title}</Text>
+              </View>
+              <Text style={styles.countdownText}>{countdown.label}</Text>
+            </>
+          )}
         </LinearGradient>
 
         {/* Fal Türlerimiz */}
         <Section title="Fal Türlerimiz">
           <View style={styles.grid}>
             {fortuneTypes.map((item) => (
-              <FortuneTypeCard key={item.id} item={item} onPress={handleFortunePress} />
+              <FortuneTypeCard
+                key={item.id}
+                item={item}
+                onPress={handleFortunePress}
+                columns={columns}
+              />
             ))}
           </View>
         </Section>
@@ -133,7 +171,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.bg,
   },
   scrollContent: {
-    paddingHorizontal: spacing.lg,
     paddingBottom: spacing.lg,
     gap: spacing.lg,
   },
@@ -171,6 +208,8 @@ const styles = StyleSheet.create({
     borderRadius: radius.lg,
     padding: spacing.lg,
     gap: spacing.sm,
+    minHeight: 88,
+    justifyContent: "center",
   },
   promoRow: {
     flexDirection: "row",
@@ -200,8 +239,15 @@ const styles = StyleSheet.create({
     color: colors.onColor,
     fontVariant: ["tabular-nums"],
   },
-  countdownExpired: {
-    color: "rgba(255,255,255,0.85)",
+  promoExpiredRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: spacing.sm,
+  },
+  promoExpiredText: {
+    ...typography.body,
+    color: colors.textSecondary,
+    flex: 1,
   },
   section: {
     gap: spacing.sm,

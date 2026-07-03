@@ -7,8 +7,6 @@ export const colors = {
 
   primary: "#3B6EF6",
   primaryDim: "#2549B0",
-  violet: "#8A4FFF",
-  pink: "#E84F8B",
   gold: "#FFC94A",
   goldSoft: "#FFE1A3",
   orange: "#FF8A5B",
@@ -22,13 +20,13 @@ export const colors = {
   border: "rgba(245, 246, 250, 0.07)",
   borderStrong: "rgba(245, 246, 250, 0.14)",
 
-  success: "#4FD1A5",
   danger: "#E85B5B",
 } as const;
 
 export const gradients = {
   quoteCard: ["#6B4FE0", "#3B3FA8"] as const,
   promoCard: ["#3B6EF6", "#1E3A9E"] as const,
+  promoExpired: ["#3A3F55", "#20232F"] as const,
 };
 
 export const fortuneAccents: Record<string, string> = {

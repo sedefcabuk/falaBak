@@ -1,10 +1,17 @@
-import { Pressable, StyleSheet, Text, View, type StyleProp, type ViewStyle } from "react-native";
-import Animated, { useAnimatedStyle, withTiming } from "react-native-reanimated";
+import { StyleSheet, Text, View, type StyleProp, type ViewStyle } from "react-native";
+import { Gesture, GestureDetector } from "react-native-gesture-handler";
+import Animated, {
+  FadeIn,
+  ZoomIn,
+  runOnJS,
+  useAnimatedStyle,
+  useSharedValue,
+  withSpring,
+  withTiming,
+} from "react-native-reanimated";
 import { Ionicons } from "@expo/vector-icons";
 import { colors, radius, spacing, typography } from "../theme/theme";
 import type { TarotCardData } from "../types/data";
-
-const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 
 type Variant = "empty" | "back" | "front";
 
@@ -18,6 +25,12 @@ interface TarotCardProps {
   style?: StyleProp<ViewStyle>;
   width?: number;
   height?: number;
+  /** Deck-only: fixed rotation (degrees) for the fan effect. */
+  rotateDeg?: number;
+  /** Deck-only: negative margin so cards overlap into a fan. */
+  marginLeft?: number;
+  /** Deck-only: staggered entrance delay in ms. */
+  enterDelay?: number;
 }
 
 export default function TarotCard({
@@ -30,11 +43,10 @@ export default function TarotCard({
   style,
   width = 90,
   height = 130,
+  rotateDeg = 0,
+  marginLeft = 0,
+  enterDelay = 0,
 }: TarotCardProps) {
-  const animatedStyle = useAnimatedStyle(() => ({
-    opacity: withTiming(disabled ? 0.35 : 1, { duration: 200 }),
-  }));
-
   if (variant === "empty") {
     return (
       <View style={[styles.slot, { width, height }, style]}>
@@ -46,20 +58,22 @@ export default function TarotCard({
 
   if (variant === "back") {
     return (
-      <AnimatedPressable
-        style={[styles.back, { width, height }, animatedStyle, style]}
-        onPress={onPress}
+      <DeckCard
         disabled={disabled}
-      >
-        <View style={styles.backInner}>
-          <Ionicons name="star" size={22} color={colors.primary} />
-        </View>
-      </AnimatedPressable>
+        onPress={onPress}
+        width={width}
+        height={height}
+        rotateDeg={rotateDeg}
+        marginLeft={marginLeft}
+        enterDelay={enterDelay}
+      />
     );
   }
-
   return (
-    <View style={[styles.frontWrap, { width }, style]}>
+    <Animated.View
+      entering={ZoomIn.springify().damping(14)}
+      style={[styles.frontWrap, { width }, style]}
+    >
       <View style={[styles.front, { width, height }, reversed && styles.frontReversed]}>
         <Ionicons name="star" size={18} color={colors.gold} />
         <Text style={styles.frontName} numberOfLines={2}>
@@ -68,7 +82,75 @@ export default function TarotCard({
       </View>
       <Text style={styles.slotCaption}>{label}</Text>
       <Text style={styles.orientation}>{reversed ? "Ters" : "Düz"}</Text>
-    </View>
+    </Animated.View>
+  );
+}
+
+/**
+ * Deck-back card. Tap to select, OR drag it upward (fan-physics) past a
+ * small threshold to "pluck" it out — released early it springs back down.
+ */
+function DeckCard({
+  disabled,
+  onPress,
+  width,
+  height,
+  rotateDeg,
+  marginLeft,
+  enterDelay,
+}: {
+  disabled?: boolean;
+  onPress?: () => void;
+  width: number;
+  height: number;
+  rotateDeg: number;
+  marginLeft: number;
+  enterDelay: number;
+}) {
+  const translateY = useSharedValue(0);
+
+  const handlePress = () => {
+    onPress?.();
+  };
+
+  const tap = Gesture.Tap()
+    .enabled(!disabled)
+    .onEnd((_event, success) => {
+      if (success) runOnJS(handlePress)();
+    });
+
+  const pan = Gesture.Pan()
+    .enabled(!disabled)
+    .activeOffsetY([-8, 1000])
+    .failOffsetX([-10, 10])
+    .onUpdate((event) => {
+      translateY.value = Math.min(0, event.translationY);
+    })
+    .onEnd((_event, success) => {
+      if (success && translateY.value < -30) {
+        runOnJS(handlePress)();
+      }
+      translateY.value = withSpring(0, { damping: 14 });
+    });
+
+  const composedGesture = Gesture.Race(pan, tap);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ translateY: translateY.value }, { rotate: `${rotateDeg}deg` }],
+    opacity: withTiming(disabled ? 0.3 : 1, { duration: 200 }),
+  }));
+
+  return (
+    <GestureDetector gesture={composedGesture}>
+      <Animated.View
+        entering={FadeIn.delay(enterDelay).springify().damping(16)}
+        style={[styles.back, { width, height, marginLeft }, animatedStyle]}
+      >
+        <View style={styles.backInner}>
+          <Ionicons name="star" size={22} color={colors.primary} />
+        </View>
+      </Animated.View>
+    </GestureDetector>
   );
 }
 
