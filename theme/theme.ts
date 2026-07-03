@@ -1,7 +1,3 @@
-// Design tokens for FalaBak, matched to the provided Figma reference:
-// a deep navy canvas, rounded cards, and a blue → violet → pink accent
-// family that also drives the Yaşam Dengesi bars.
-
 export const colors = {
   bg: "#0F1220",
   bgElevated: "#171B2E",
@@ -35,7 +31,6 @@ export const gradients = {
   promoCard: ["#3B6EF6", "#1E3A9E"] as const,
 };
 
-// Per-fortune-type accent, used for the icon roundel on the home grid.
 export const fortuneAccents: Record<string, string> = {
   "kahve-fali": "#C97B3D",
   "yuz-fali": "#E8809B",

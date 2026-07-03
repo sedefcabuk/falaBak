@@ -36,7 +36,7 @@ export default function HomeScreen() {
   };
 
   const handleActivityPress = (_item: Activity) => {
-    // Etkinlik akışları bu case study kapsamı dışında; ileride ilgili route'a yönlendirilebilir.
+    
   };
 
   return (

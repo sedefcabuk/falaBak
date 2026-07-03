@@ -12,7 +12,7 @@ import type { FalaBakData, TarotCardData, TarotPick } from "../types/data";
 
 const data = rawData as FalaBakData;
 const { tarotReading, tarotCards, user } = data;
-const POSITIONS = tarotReading.spread.positions; // past, present, future
+const POSITIONS = tarotReading.spread.positions;
 
 export default function TarotScreen() {
   const router = useRouter();

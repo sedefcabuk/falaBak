@@ -58,7 +58,6 @@ export default function TarotCard({
     );
   }
 
-  // variant === "front"
   return (
     <View style={[styles.frontWrap, { width }, style]}>
       <View style={[styles.front, { width, height }, reversed && styles.frontReversed]}>
