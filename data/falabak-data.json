@@ -1,0 +1,287 @@
+{
+  "meta": {
+    "appName": "FalaBak",
+    "version": "1.0.0",
+    "locale": "tr-TR",
+    "currency": { "code": "JETON", "label": "Jeton", "icon": "coin" },
+    "description": "Tarot ve fal uygulaması için örnek veri seti. Gerçek bir API'ye bağlanmaz; tüm veri bu dosyadan okunur."
+  },
+
+  "user": {
+    "id": "u_001",
+    "name": "Ahmet Han Demir",
+    "firstName": "Ahmet Han",
+    "avatar": "assets/avatars/ahmet.png",
+    "coinBalance": 20,
+    "memberSince": "2025-11-12"
+  },
+
+  "dailyQuote": {
+    "id": "quote_2026_06_24",
+    "text": "Yıldızlar susmaz... Doğru zamanda fısıldar. Gökyüzü, ruhunun sırlarını anlatır.",
+    "author": "Bilge Kadın - Luna",
+    "image": "assets/characters/luna.png",
+    "date": "2026-06-24"
+  },
+
+  "promotion": {
+    "id": "promo_summer_36",
+    "title": "Falın İndirim",
+    "discountPercent": 36,
+    "badgeLabel": "%36 İndirim",
+    "active": true,
+    "startsAt": "2026-06-24T09:00:00+03:00",
+    "endsAt": "2026-06-26T21:00:00+03:00",
+    "countdownDurationSeconds": 8580,
+    "_countdownNote": "endsAt sabit bir örnek son tarihtir. Geri sayım her zaman canlı görünsün isteniyorsa, hedef zamanı uygulama açılışında 'şimdi + countdownDurationSeconds' olarak da hesaplayabilirsiniz. Süre dolunca 'Süre doldu' durumu gösterilmelidir. (8580 sn = 2 saat 23 dakika)"
+  },
+
+  "fortuneTypes": [
+    {
+      "id": "kahve-fali",
+      "title": "Kahve Falı",
+      "icon": "coffee-cup",
+      "badge": "Tercih Edilen",
+      "cost": 5,
+      "route": null
+    },
+    {
+      "id": "yuz-fali",
+      "title": "Yüz Falı",
+      "icon": "face-scan",
+      "badge": null,
+      "cost": 8,
+      "route": null
+    },
+    {
+      "id": "tarot-fali",
+      "title": "Tarot Falı",
+      "icon": "tarot-cards",
+      "badge": null,
+      "cost": 10,
+      "route": "tarot"
+    },
+    {
+      "id": "el-fali",
+      "title": "El Falı",
+      "icon": "palm",
+      "badge": null,
+      "cost": 7,
+      "route": null
+    },
+    {
+      "id": "melek-kartlari",
+      "title": "Melek Kartları",
+      "icon": "angel",
+      "badge": null,
+      "cost": 12,
+      "route": null
+    },
+    {
+      "id": "duru-goru",
+      "title": "Duru Görü",
+      "icon": "crystal-ball",
+      "badge": null,
+      "cost": 15,
+      "route": null
+    }
+  ],
+
+  "lifeBalance": {
+    "title": "Yaşam Dengesi",
+    "items": [
+      { "id": "physical",  "label": "Fiziksel", "sublabel": "Seviye", "value": 72, "color": "#3B6EF6" },
+      { "id": "emotional", "label": "Duygusal", "sublabel": "Seviye", "value": 65, "color": "#8A4FFF" },
+      { "id": "mental",    "label": "Mental",   "sublabel": "Seviye", "value": 80, "color": "#E84F8B" }
+    ]
+  },
+
+  "activities": [
+    { "id": "sans-kurabiyesi", "title": "Şans Kurabiyesi", "icon": "fortune-cookie", "route": "activity/fortune-cookie" },
+    { "id": "eglence",         "title": "Eğlence",          "icon": "sparkles",       "route": "activity/fun" },
+    { "id": "carkifelek",      "title": "Çarkıfelek",       "icon": "wheel",          "route": "activity/wheel" },
+    { "id": "salla-kazan",     "title": "Salla Kazan",      "icon": "shake-gift",     "route": "activity/shake" }
+  ],
+
+  "navTabs": [
+    { "id": "home",     "label": "Ana Sayfa", "icon": "home",    "active": true },
+    { "id": "activity", "label": "Etkinlik",  "icon": "compass", "active": false },
+    { "id": "send",     "label": "Gönder",    "icon": "send",    "active": false },
+    { "id": "night",    "label": "Rüya",      "icon": "moon",    "active": false },
+    { "id": "profile",  "label": "Profil",    "icon": "user",    "active": false }
+  ],
+
+  "tarotReading": {
+    "title": "Tarot Falı",
+    "cost": 10,
+    "spread": {
+      "id": "three-card-ppf",
+      "name": "Üç Kart Açılımı",
+      "positions": [
+        { "index": 0, "id": "past",    "label": "Geçmiş" },
+        { "index": 1, "id": "present", "label": "Şimdi" },
+        { "index": 2, "id": "future",  "label": "Gelecek" }
+      ]
+    },
+    "instructions": "Destedeki yelpazeden kart seçin. Seçtiğiniz kartlar sırayla Geçmiş, Şimdi ve Gelecek slotlarına yerleşir. Üç slot dolunca her kartın anlamı gösterilir."
+  },
+
+  "tarotCards": [
+    {
+      "id": "the-fool",
+      "number": 0,
+      "name": "Joker",
+      "nameEn": "The Fool",
+      "arcana": "Major",
+      "image": "assets/cards/00-the-fool.png",
+      "cardBack": "assets/cards/back.png",
+      "keywords": ["yeni başlangıç", "masumiyet", "özgürlük", "macera"],
+      "uprightMeaning": "Yeni bir yolculuğun eşiğindesin. Cesaret ve açıklıkla atılan adımlar seni beklenmedik fırsatlara götürebilir.",
+      "reversedMeaning": "Acelecilik ve düşünmeden alınan riskler. Bir an durup yön belirleme zamanı.",
+      "description": "Joker, sınırsız potansiyeli ve sayfanın yeniden yazılmasını temsil eder."
+    },
+    {
+      "id": "the-magician",
+      "number": 1,
+      "name": "Büyücü",
+      "nameEn": "The Magician",
+      "arcana": "Major",
+      "image": "assets/cards/01-the-magician.png",
+      "cardBack": "assets/cards/back.png",
+      "keywords": ["yetenek", "irade", "yaratım", "güç"],
+      "uprightMeaning": "Elindeki tüm araçlara sahipsin; niyetini eyleme dönüştürme gücü sende.",
+      "reversedMeaning": "Dağılan odak veya yeteneklerin yanlış yönde kullanımı. Niyetini netleştir.",
+      "description": "Büyücü, düşünce ile gerçeklik arasındaki köprüdür."
+    },
+    {
+      "id": "the-high-priestess",
+      "number": 2,
+      "name": "Azize",
+      "nameEn": "The High Priestess",
+      "arcana": "Major",
+      "image": "assets/cards/02-the-high-priestess.png",
+      "cardBack": "assets/cards/back.png",
+      "keywords": ["sezgi", "sır", "bilinçaltı", "iç ses"],
+      "uprightMeaning": "İç sesini dinle. Cevaplar dışarıda değil, sezgilerinde gizli.",
+      "reversedMeaning": "Sezgilerini görmezden gelmek veya yüzeysel kalmak. Sessizliğe kulak ver.",
+      "description": "Azize, görünmeyen bilginin ve iç dünyanın bekçisidir."
+    },
+    {
+      "id": "the-empress",
+      "number": 3,
+      "name": "İmparatoriçe",
+      "nameEn": "The Empress",
+      "arcana": "Major",
+      "image": "assets/cards/03-the-empress.png",
+      "cardBack": "assets/cards/back.png",
+      "keywords": ["bereket", "üretkenlik", "şefkat", "doğallık"],
+      "uprightMeaning": "Bolluk ve yaratıcılık dönemi. Besle, büyüt; emek verdiğin şey çiçek açıyor.",
+      "reversedMeaning": "Kendine bakımı ihmal etmek veya yaratıcılığın tıkanması.",
+      "description": "İmparatoriçe, doğurganlığın ve şefkatli büyümenin sembolü."
+    },
+    {
+      "id": "the-emperor",
+      "number": 4,
+      "name": "İmparator",
+      "nameEn": "The Emperor",
+      "arcana": "Major",
+      "image": "assets/cards/04-the-emperor.png",
+      "cardBack": "assets/cards/back.png",
+      "keywords": ["otorite", "düzen", "istikrar", "disiplin"],
+      "uprightMeaning": "Yapı kurma ve liderlik zamanı. Kararlılık ve disiplin sağlam temeller atar.",
+      "reversedMeaning": "Aşırı kontrol veya katı kurallar. Esnemeye yer aç.",
+      "description": "İmparator, düzenin ve sağlam temellerin gücüdür."
+    },
+    {
+      "id": "the-hierophant",
+      "number": 5,
+      "name": "Aziz",
+      "nameEn": "The Hierophant",
+      "arcana": "Major",
+      "image": "assets/cards/05-the-hierophant.png",
+      "cardBack": "assets/cards/back.png",
+      "keywords": ["gelenek", "bilgelik", "rehberlik", "inanç"],
+      "uprightMeaning": "Bir öğretmen, gelenek ya da kurumdan gelen rehberlik faydalı olabilir.",
+      "reversedMeaning": "Kalıpları sorgulama ve kendi yolunu çizme isteği.",
+      "description": "Aziz, aktarılan bilgeliğin ve manevi rehberliğin temsilcisi."
+    },
+    {
+      "id": "the-lovers",
+      "number": 6,
+      "name": "Aşıklar",
+      "nameEn": "The Lovers",
+      "arcana": "Major",
+      "image": "assets/cards/06-the-lovers.png",
+      "cardBack": "assets/cards/back.png",
+      "keywords": ["birliktelik", "uyum", "seçim", "değer"],
+      "uprightMeaning": "Kalpten bir bağlantı ya da önemli bir seçim. Değerlerinle uyumlu olanı seç.",
+      "reversedMeaning": "Uyumsuzluk veya kararsızlık. Neyin senin için gerçekten önemli olduğunu düşün.",
+      "description": "Aşıklar, bağlar ve bilinçli seçimler kartıdır."
+    },
+    {
+      "id": "the-chariot",
+      "number": 7,
+      "name": "Savaş Arabası",
+      "nameEn": "The Chariot",
+      "arcana": "Major",
+      "image": "assets/cards/07-the-chariot.png",
+      "cardBack": "assets/cards/back.png",
+      "keywords": ["irade", "zafer", "kararlılık", "kontrol"],
+      "uprightMeaning": "Kararlı duruş ve odak seni zafere götürür. Dizginleri elinde tut.",
+      "reversedMeaning": "Dağılan yön veya kontrol kaybı. Önceliğini yeniden belirle.",
+      "description": "Savaş Arabası, irade gücüyle ileri atılmayı simgeler."
+    },
+    {
+      "id": "strength",
+      "number": 8,
+      "name": "Güç",
+      "nameEn": "Strength",
+      "arcana": "Major",
+      "image": "assets/cards/08-strength.png",
+      "cardBack": "assets/cards/back.png",
+      "keywords": ["iç güç", "cesaret", "sabır", "şefkat"],
+      "uprightMeaning": "Gerçek güç nazik kararlılıktır. Sabır ve şefkatle zorlukları yatıştırırsın.",
+      "reversedMeaning": "Özgüven eksikliği veya tükenmişlik. Kendine şefkatle yaklaş.",
+      "description": "Güç, kaba kuvveti değil iç dengeyi ve cesareti temsil eder."
+    },
+    {
+      "id": "the-hermit",
+      "number": 9,
+      "name": "Ermiş",
+      "nameEn": "The Hermit",
+      "arcana": "Major",
+      "image": "assets/cards/09-the-hermit.png",
+      "cardBack": "assets/cards/back.png",
+      "keywords": ["iç gözlem", "yalnızlık", "arayış", "bilgelik"],
+      "uprightMeaning": "Geri çekilip iç dünyana dönme zamanı. Cevap sessizlikte gizli.",
+      "reversedMeaning": "Aşırı izolasyon veya yön kaybı. Dengeli bir geri dönüş için kapını arala.",
+      "description": "Ermiş, iç ışığı ve bireysel arayışı simgeler."
+    },
+    {
+      "id": "wheel-of-fortune",
+      "number": 10,
+      "name": "Kader Çarkı",
+      "nameEn": "Wheel of Fortune",
+      "arcana": "Major",
+      "image": "assets/cards/10-wheel-of-fortune.png",
+      "cardBack": "assets/cards/back.png",
+      "keywords": ["dönüş", "şans", "döngü", "değişim"],
+      "uprightMeaning": "Talihin dönmeye başladığı bir eşik. Akışa güven, değişim lehine işliyor.",
+      "reversedMeaning": "Tıkanan döngü veya kötü zamanlama. Sabret, çarkın dönmesini bekle.",
+      "description": "Kader Çarkı, yaşamın döngülerini ve değişimi temsil eder."
+    },
+    {
+      "id": "justice",
+      "number": 11,
+      "name": "Adalet",
+      "nameEn": "Justice",
+      "arcana": "Major",
+      "image": "assets/cards/11-justice.png",
+      "cardBack": "assets/cards/back.png",
+      "keywords": ["adalet", "denge", "gerçek", "sorumluluk"],
+      "uprightMeaning": "Hakkaniyet ve dürüstlük öne çıkıyor. Attığın her adımın sonucu adildir.",
+      "reversedMeaning": "Adaletsizlik hissi veya sorumluluktan kaçış. Dengeyi yeniden kur.",
+      "description": "Adalet; denge, gerçek ve eylemlerin sonuçları kartıdır."
+    }
+  ]
+}
