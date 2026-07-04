@@ -47,8 +47,7 @@ yönlendirme yapılır (`fortuneTypes` içindeki `route: "tarot"` alanına bakı
 **`app/tarot.tsx`** (Tarot Falı) — `picks` state'i sırayla dolan 3 slotu (Geçmiş/Şimdi/
 Gelecek) tutar. Her kart seçiminde düz/ters durumu rastgele belirlenir ve hafif titreşim
 (`expo-haptics`) tetiklenir. `usedIds` ile bir kartın iki kez seçilmesi engellenir. Üç slot
-dolunca kartların anlamı (düz/ters) gösterilir. "Tekrar çek / sıfırla" ile state temizlenir.
-Deste, `rotate` ve `marginLeft` hesaplamalarıyla yelpaze (fan) görünümü elde eder.
+dolunca kartların anlamı (düz/ters) gösterilir. Deste, `rotate` ve `marginLeft` hesaplamalarıyla yelpaze (fan) görünümü elde eder.
 ## Çalıştırma
 npx expo start
 ## Bonus: Jeton Bakiyesi
@@ -80,10 +79,9 @@ Kart seçimi artık hem dokunarak hem de **yukarı doğru sürükleyerek** (gest
 sürüklenirse kart seçilir, azsa yay animasyonuyla geri döner. Yatay deste kaydırmasıyla
 çakışmaması için sürükleme yalnızca dikey harekette aktive olacak şekilde ayarlandı.
 ## Bonus: Haptic Feedback
-`expo-haptics` — tarot kartı seçiminde ve sıfırlama işleminde cihazın hafif titreşim
+`expo-haptics` — tarot kartı seçiminde cihazın hafif titreşim
 vermesi sağlanır:
 Kart seçildiğinde → `Haptics.impactAsync(ImpactFeedbackStyle.Light)` (hafif dokunuş hissi)
-"Tekrar çek / sıfırla" basıldığında → `Haptics.impactAsync(ImpactFeedbackStyle.Medium)` (biraz daha belirgin, "sıfırlama" hissi)
 Yetersiz jetonla kart çekmeye çalışıldığında → `Haptics.notificationAsync(NotificationFeedbackType.Warning)` (uyarı titreşimi, hatayı fiziksel olarak da hissettirir)
 Titreşim, ses veya haptic desteği olmayan cihazlarda (örn. bazı Android emülatörleri,
 web) sessizce başarısız olabileceği için her çağrı `.catch(() => {})` ile sarılmıştır —

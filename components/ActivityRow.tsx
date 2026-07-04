@@ -1,6 +1,12 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { activityAccents, colors, radius, spacing, typography } from "../theme/theme";
+import {
+  activityAccents,
+  colors,
+  radius,
+  spacing,
+  typography,
+} from "../theme/theme";
 import type { Activity } from "../types/data";
 
 const ICONS: Record<string, keyof typeof Ionicons.glyphMap> = {
@@ -25,11 +31,17 @@ export default function ActivityRow({ item, onPress }: ActivityRowProps) {
     >
       <View style={styles.left}>
         <View style={[styles.iconWrap, { backgroundColor: accent }]}>
-          <Ionicons name={ICONS[item.icon] ?? "sparkles"} size={17} color={colors.onColor} />
+          <Ionicons
+            name={ICONS[item.icon] ?? "sparkles"}
+            size={17}
+            color={colors.onColor}
+          />
         </View>
         <Text style={styles.title}>{item.title}</Text>
       </View>
-      <Ionicons name="chevron-forward" size={18} color={colors.textMuted} />
+      <View style={styles.arrowBox}>
+        <Ionicons name="chevron-forward" size={16} color={colors.onColor} />
+      </View>
     </Pressable>
   );
 }
@@ -62,4 +74,12 @@ const styles = StyleSheet.create({
   title: {
     ...typography.subtitle,
   },
+  arrowBox: {
+  width: 30,
+  height: 30,
+  borderRadius: 7,
+  backgroundColor: colors.bgElevated, // veya "#2B3557"
+  alignItems: "center",
+  justifyContent: "center",
+},
 });

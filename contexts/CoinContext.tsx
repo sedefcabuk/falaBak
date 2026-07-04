@@ -13,7 +13,6 @@ const data = rawData as FalaBakData;
 
 interface CoinContextValue {
   balance: number;
-  /** Tries to deduct `amount`. Returns false (and leaves balance untouched) if insufficient. */
   spend: (amount: number) => boolean;
 }
 

@@ -1,5 +1,13 @@
 import { useEffect, useMemo, useState } from "react";
-import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+  NativeScrollEvent,
+  NativeSyntheticEvent,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { useRouter } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as Haptics from "expo-haptics";
@@ -24,6 +32,8 @@ export default function TarotScreen() {
   const [picks, setPicks] = useState<TarotPick[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [insufficientFunds, setInsufficientFunds] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
+  const [deckWidths, setDeckWidths] = useState({ content: 0, visible: 0 });
 
   useEffect(() => {
     const timer = setTimeout(() => setIsLoading(false), 400);
@@ -40,7 +50,9 @@ export default function TarotScreen() {
       const success = spend(tarotReading.cost);
       if (!success) {
         setInsufficientFunds(true);
-        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning).catch(() => {});
+        Haptics.notificationAsync(
+          Haptics.NotificationFeedbackType.Warning,
+        ).catch(() => {});
         return;
       }
       setInsufficientFunds(false);
@@ -61,6 +73,13 @@ export default function TarotScreen() {
     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium).catch(() => {});
     setPicks([]);
     setInsufficientFunds(false);
+  };
+
+  const handleDeckScroll = (event: NativeSyntheticEvent<NativeScrollEvent>) => {
+    const { contentOffset, contentSize, layoutMeasurement } = event.nativeEvent;
+    const maxScroll = contentSize.width - layoutMeasurement.width;
+    const progress = maxScroll > 0 ? contentOffset.x / maxScroll : 0;
+    setScrollProgress(Math.min(1, Math.max(0, progress)));
   };
 
   const cardById = (id: string) => tarotCards.find((c) => c.id === id);
@@ -85,7 +104,6 @@ export default function TarotScreen() {
         ]}
         showsVerticalScrollIndicator={false}
       >
-        {/* Three slots */}
         <View style={styles.slotsRow}>
           {POSITIONS.map((position) => {
             const pick = picks.find((p) => p.positionIndex === position.index);
@@ -104,25 +122,28 @@ export default function TarotScreen() {
           })}
         </View>
 
-        <Text style={styles.pickLabel}>{isComplete ? "Açılım tamamlandı" : "Kart Seç"}</Text>
+        <Text style={styles.pickLabel}>
+          {isComplete ? "Açılım tamamlandı" : "Kart Seç"}
+        </Text>
 
         {insufficientFunds && (
           <View style={styles.warningBox}>
             <Text style={styles.warningText}>
-              Yeterli jetonun yok — Tarot Falı için {tarotReading.cost} jeton gerekiyor (bakiyen:{" "}
-              {balance}).
+              Yeterli jetonun yok — Tarot Falı için {tarotReading.cost} jeton
+              gerekiyor (bakiyen: {balance}).
             </Text>
           </View>
         )}
 
-        {/* Reveal panel once all slots are filled */}
         {isComplete && (
           <View style={styles.revealPanel}>
             {picks.map((pick) => {
               const card = cardById(pick.cardId);
               if (!card) return null;
               const position = POSITIONS[pick.positionIndex];
-              const meaning = pick.reversed ? card.reversedMeaning : card.uprightMeaning;
+              const meaning = pick.reversed
+                ? card.reversedMeaning
+                : card.uprightMeaning;
               return (
                 <View key={pick.cardId} style={styles.revealItem}>
                   <Text style={styles.revealPosition}>
@@ -138,12 +159,20 @@ export default function TarotScreen() {
           </View>
         )}
 
-        {/* Deck / fan */}
         <View style={styles.deckSection}>
           <ScrollView
             horizontal
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={styles.fanRow}
+            onScroll={handleDeckScroll}
+            scrollEventThrottle={16}
+            onLayout={(e) => {
+              const width = e.nativeEvent.layout.width;
+              setDeckWidths((prev) => ({ ...prev, visible: width }));
+            }}
+            onContentSizeChange={(w) =>
+              setDeckWidths((prev) => ({ ...prev, content: w }))
+            }
           >
             {tarotCards.map((card, index) => {
               const used = usedIds.has(card.id);
@@ -163,16 +192,50 @@ export default function TarotScreen() {
               );
             })}
           </ScrollView>
-
           <View style={styles.footerRow}>
-            <Text style={styles.progressLabel}>{picks.length}/3 kart seçildi</Text>
+            <Text style={styles.progressLabel}>
+              {picks.length}/3 kart seçildi
+            </Text>
             <Pressable onPress={handleReset} hitSlop={8}>
               <Text style={styles.resetLabel}>Tekrar çek / sıfırla</Text>
             </Pressable>
           </View>
-          <Text style={styles.hintText}>
-            Bir kartı yukarı doğru sürükleyerek ya da dokunarak seçebilirsin.
-          </Text>
+          {deckWidths.content > deckWidths.visible &&
+            (() => {
+              const R = deckWidths.visible * 1.2;
+              const circleTopY = -0; // arcCircle'daki top değeriyle aynı olmalı
+              const circleCenterY = circleTopY + R;
+              const circleCenterX = deckWidths.visible / 2;
+              const dx = (scrollProgress - 0.5) * deckWidths.visible * 0.9;
+              const knobY =
+                circleCenterY - Math.sqrt(Math.max(0, R * R - dx * dx));
+
+              return (
+                <View style={styles.arcWrap}>
+                  <View
+                    style={[
+                      styles.arcCircle,
+                      {
+                        width: R * 2,
+                        height: R * 2,
+                        borderRadius: R,
+                        left: circleCenterX - R,
+                        top: circleTopY,
+                      },
+                    ]}
+                  />
+                  <View
+                    style={[
+                      styles.arcKnob,
+                      {
+                        left: circleCenterX + dx - 6,
+                        top: knobY,
+                      },
+                    ]}
+                  />
+                </View>
+              );
+            })()}
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -197,6 +260,7 @@ const styles = StyleSheet.create({
   pickLabel: {
     ...typography.title,
     textAlign: "center",
+    fontWeight: 600,
   },
   warningBox: {
     backgroundColor: "rgba(232,91,91,0.12)",
@@ -238,6 +302,26 @@ const styles = StyleSheet.create({
     paddingRight: spacing.xl,
     alignItems: "center",
   },
+  arcWrap: {
+    height: 40,
+    overflow: "hidden",
+    marginTop: 2,
+  },
+  arcCircle: {
+    position: "absolute",
+    borderWidth: 1.5,
+    borderColor: colors.primary,
+    opacity: 0.6,
+  },
+  arcKnob: {
+    position: "absolute",
+    width: 12,
+    height: 12,
+    borderRadius: 6,
+    backgroundColor: colors.primary,
+    borderWidth: 2,
+    borderColor: colors.onColor,
+  },
   footerRow: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -250,9 +334,5 @@ const styles = StyleSheet.create({
     ...typography.caption,
     color: colors.primary,
     fontWeight: "700",
-  },
-  hintText: {
-    ...typography.caption,
-    textAlign: "center",
   },
 });

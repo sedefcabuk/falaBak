@@ -50,9 +50,9 @@ const styles = StyleSheet.create({
     width: 36,
     height: 36,
     borderRadius: radius.pill,
-    backgroundColor: colors.bgElevated,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: colors.bgElevated,
   },
   logo: {
     ...typography.title,
@@ -73,12 +73,8 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: spacing.xxs,
-    backgroundColor: colors.bgElevated,
-    borderRadius: radius.pill,
     paddingHorizontal: spacing.sm,
     paddingVertical: 5,
-    borderWidth: 1,
-    borderColor: colors.borderStrong,
   },
   coinDot: {
     width: 16,

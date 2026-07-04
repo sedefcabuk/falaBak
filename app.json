@@ -30,6 +30,19 @@
     "plugins": [
       "expo-router",
       "expo-font"
-    ]
+    ],
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "0a1f7a5b-c5c8-4c51-a0b2-91cb96e73b91"
+      }
+    },
+    "owner": "sedefcabuks-team",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/0a1f7a5b-c5c8-4c51-a0b2-91cb96e73b91"
+    }
   }
 }

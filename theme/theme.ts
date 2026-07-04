@@ -1,6 +1,6 @@
 export const colors = {
   bg: "#0F1220",
-  bgElevated: "#171B2E",
+  bgElevated: "#283053",
   bgDeep: "#0A0C16",
   card: "#1B2036",
   cardAlt: "#212745",
@@ -9,8 +9,6 @@ export const colors = {
   primaryDim: "#2549B0",
   gold: "#FFC94A",
   goldSoft: "#FFE1A3",
-  orange: "#FF8A5B",
-
   textPrimary: "#F5F6FA",
   textSecondary: "#9CA3C4",
   textMuted: "#6B7396",
@@ -24,7 +22,7 @@ export const colors = {
 } as const;
 
 export const gradients = {
-  quoteCard: ["#6B4FE0", "#3B3FA8"] as const,
+  quoteCard: ["#3B6EF6", "#1E3A9E"]as const,
   promoCard: ["#3B6EF6", "#1E3A9E"] as const,
   promoExpired: ["#3A3F55", "#20232F"] as const,
 };

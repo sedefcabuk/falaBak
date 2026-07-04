@@ -1,4 +1,10 @@
-import { StyleSheet, Text, View, type StyleProp, type ViewStyle } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  type StyleProp,
+  type ViewStyle,
+} from "react-native";
 import { Gesture, GestureDetector } from "react-native-gesture-handler";
 import Animated, {
   FadeIn,
@@ -25,11 +31,8 @@ interface TarotCardProps {
   style?: StyleProp<ViewStyle>;
   width?: number;
   height?: number;
-  /** Deck-only: fixed rotation (degrees) for the fan effect. */
   rotateDeg?: number;
-  /** Deck-only: negative margin so cards overlap into a fan. */
   marginLeft?: number;
-  /** Deck-only: staggered entrance delay in ms. */
   enterDelay?: number;
 }
 
@@ -74,7 +77,13 @@ export default function TarotCard({
       entering={ZoomIn.springify().damping(14)}
       style={[styles.frontWrap, { width }, style]}
     >
-      <View style={[styles.front, { width, height }, reversed && styles.frontReversed]}>
+      <View
+        style={[
+          styles.front,
+          { width, height },
+          reversed && styles.frontReversed,
+        ]}
+      >
         <Ionicons name="star" size={18} color={colors.gold} />
         <Text style={styles.frontName} numberOfLines={2}>
           {card?.name}
@@ -86,10 +95,6 @@ export default function TarotCard({
   );
 }
 
-/**
- * Deck-back card. Tap to select, OR drag it upward (fan-physics) past a
- * small threshold to "pluck" it out — released early it springs back down.
- */
 function DeckCard({
   disabled,
   onPress,
@@ -136,7 +141,10 @@ function DeckCard({
   const composedGesture = Gesture.Race(pan, tap);
 
   const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ translateY: translateY.value }, { rotate: `${rotateDeg}deg` }],
+    transform: [
+      { translateY: translateY.value },
+      { rotate: `${rotateDeg}deg` },
+    ],
     opacity: withTiming(disabled ? 0.3 : 1, { duration: 200 }),
   }));
 
@@ -144,11 +152,14 @@ function DeckCard({
     <GestureDetector gesture={composedGesture}>
       <Animated.View
         entering={FadeIn.delay(enterDelay).springify().damping(16)}
-        style={[styles.back, { width, height, marginLeft }, animatedStyle]}
       >
-        <View style={styles.backInner}>
-          <Ionicons name="star" size={22} color={colors.primary} />
-        </View>
+        <Animated.View
+          style={[styles.back, { width, height, marginLeft }, animatedStyle]}
+        >
+          <View style={styles.backInner}>
+            <Ionicons name="star" size={22} color={colors.primary} />
+          </View>
+        </Animated.View>
       </Animated.View>
     </GestureDetector>
   );

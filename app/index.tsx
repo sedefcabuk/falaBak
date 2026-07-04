@@ -47,7 +47,7 @@ export default function HomeScreen() {
   };
 
   const handleActivityPress = (_item: Activity) => {
-    // Etkinlik akışları bu case study kapsamı dışında.
+    
   };
 
   if (isLoading) {
@@ -71,10 +71,9 @@ export default function HomeScreen() {
         showsVerticalScrollIndicator={false}
       >
         <Text style={styles.welcome}>
-          Hoş Geldin, <Text style={styles.welcomeName}>{user.firstName}</Text>
+          Hoş Geldin, <Text style={styles.welcomeName}>{user.name}</Text>
         </Text>
 
-        {/* Günün Sözü */}
         <LinearGradient
           colors={gradients.quoteCard}
           start={{ x: 0, y: 0 }}
@@ -88,7 +87,6 @@ export default function HomeScreen() {
           <Text style={styles.quoteAuthor}>{dailyQuote.author}</Text>
         </LinearGradient>
 
-        {/* Promotion / Countdown */}
         <LinearGradient
           colors={countdown.isExpired ? gradients.promoExpired : gradients.promoCard}
           start={{ x: 0, y: 0 }}
@@ -115,7 +113,6 @@ export default function HomeScreen() {
           )}
         </LinearGradient>
 
-        {/* Fal Türlerimiz */}
         <Section title="Fal Türlerimiz">
           <View style={styles.grid}>
             {fortuneTypes.map((item) => (
@@ -129,7 +126,6 @@ export default function HomeScreen() {
           </View>
         </Section>
 
-        {/* Yaşam Dengesi */}
         <Section title={lifeBalance.title}>
           <View style={styles.balanceRow}>
             {lifeBalance.items.map((item) => (
@@ -138,7 +134,6 @@ export default function HomeScreen() {
           </View>
         </Section>
 
-        {/* Etkinlikler */}
         <Section title="Etkinlikler">
           <View style={styles.activityList}>
             {activities.map((item) => (
@@ -177,9 +172,11 @@ const styles = StyleSheet.create({
   welcome: {
     ...typography.display,
     marginTop: spacing.xs,
+    fontWeight: 300
   },
   welcomeName: {
     color: colors.textPrimary,
+    fontWeight: 700
   },
   quoteCard: {
     borderRadius: radius.lg,
@@ -203,6 +200,7 @@ const styles = StyleSheet.create({
   quoteAuthor: {
     ...typography.caption,
     color: "rgba(245,246,250,0.7)",
+    fontWeight:800
   },
   promoCard: {
     borderRadius: radius.lg,
@@ -255,6 +253,7 @@ const styles = StyleSheet.create({
   sectionTitle: {
     ...typography.title,
     fontSize: 17,
+    fontWeight:400
   },
   grid: {
     flexDirection: "row",
@@ -277,7 +276,7 @@ const styles = StyleSheet.create({
   },
   viewAllLabel: {
     fontSize: 14,
-    fontWeight: "700",
+    fontWeight: "500",
     color: colors.onColor,
   },
 });

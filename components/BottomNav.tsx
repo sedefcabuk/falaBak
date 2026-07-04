@@ -33,7 +33,7 @@ export default function BottomNav({ tabs, activeId, onSelect }: BottomNavProps) 
             <Ionicons
               name={active ? iconName : (`${iconName}-outline` as keyof typeof Ionicons.glyphMap)}
               size={19}
-              color={active ? colors.onColor : colors.textMuted}
+              color={colors.onColor}
             />
             {active && <Text style={styles.label}>{tab.label}</Text>}
           </Pressable>
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
   },
   label: {
     fontSize: 12,
-    fontWeight: "700",
+    fontWeight: "500",
     color: colors.onColor,
   },
 });

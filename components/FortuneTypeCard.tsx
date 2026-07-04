@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: -10,
     alignSelf: "center",
-    backgroundColor: colors.orange,
+    backgroundColor: colors.primary,
     borderRadius: radius.pill,
     paddingHorizontal: 8,
     paddingVertical: 3,

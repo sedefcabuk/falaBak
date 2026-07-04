@@ -5,15 +5,9 @@ export interface CountdownResult {
   hours: number;
   minutes: number;
   seconds: number;
-  /** e.g. "2 Saat : 23 Dakika : 18 Saniye" or "Süre doldu" */
   label: string;
 }
 
-/**
- * Ticks down to `endsAt` (ISO string) once per second.
- * Falls back to `now + durationSeconds` if endsAt is missing/invalid,
- * so the countdown always has something live to show.
- */
 export function useCountdown(
   endsAt?: string | null,
   durationSeconds?: number
