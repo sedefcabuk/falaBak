@@ -84,4 +84,5 @@ Yetersiz jetonla kart çekmeye çalışıldığında → `Haptics.notificationAs
 Titreşim, ses veya haptic desteği olmayan cihazlarda (örn. bazı Android emülatörleri,
 web) sessizce başarısız olabileceği için her çağrı `.catch(() => {})` ile sarılmıştır —
 uygulamanın akışını bozmaz.
-
+## DEMO
+https://expo.dev/preview/update?message=Ekran+g%C3%BCzelle%C5%9Ftirmesi&updateRuntimeVersion=1.0.0&createdAt=2026-07-04T16%3A38%3A13.079Z&slug=exp&projectId=0a1f7a5b-c5c8-4c51-a0b2-91cb96e73b91&group=9f4f7c7e-5c80-4bfe-a27a-1123aec8dad9
