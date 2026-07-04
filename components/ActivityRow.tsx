@@ -78,7 +78,7 @@ const styles = StyleSheet.create({
   width: 30,
   height: 30,
   borderRadius: 7,
-  backgroundColor: colors.bgElevated, // veya "#2B3557"
+  backgroundColor: colors.bgElevated,
   alignItems: "center",
   justifyContent: "center",
 },

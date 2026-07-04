@@ -203,7 +203,7 @@ export default function TarotScreen() {
           {deckWidths.content > deckWidths.visible &&
             (() => {
               const R = deckWidths.visible * 1.2;
-              const circleTopY = -0; // arcCircle'daki top değeriyle aynı olmalı
+              const circleTopY = -0;
               const circleCenterY = circleTopY + R;
               const circleCenterX = deckWidths.visible / 2;
               const dx = (scrollProgress - 0.5) * deckWidths.visible * 0.9;

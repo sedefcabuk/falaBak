@@ -36,7 +36,7 @@ ve unmount'ta interval'i temizleyen bağımsız bir hook. Süre dolunca otomatik
 **TarotCard** — boş slot / deste kartı / açılmış kart durumlarını tek bileşende yönetir Reanimated ile geçiş animasyonu içerir
 ## Ekranlar
 **`app/_layout.tsx`** — Expo Router'ın kök layout dosyası. `GestureHandlerRootView` ile
-tüm uygulamayı sarar (gesture-handler/reanimated için zorunlu), `Stack` ile Ana Sayfa ↔
+tüm uygulamayı sarar, `Stack` ile Ana Sayfa ↔
 Tarot arasında native navigasyon sağlar, `headerShown: false` ile native header kapatılıp
 kendi `TopBar` bileşenimiz kullanılır.
 **`app/index.tsx`** (Ana Sayfa) — JSON'u `FalaBakData` tipine cast edip okur. Üst bar,
@@ -53,8 +53,7 @@ npx expo start
 ## Bonus: Jeton Bakiyesi
 `contexts/CoinContext.tsx` — `React Context` ile global bir jeton bakiyesi state'i.
 `spend(amount)` fonksiyonu bakiye yetersizse `false` döner. Tarot ekranında ilk kart
-çekildiğinde (açılım başladığında) `tarotReading.cost` (10 jeton) bir kez düşülür;
-bakiye yetersizse kart eklenmez, uyarı kutusu + haptic feedback gösterilir. Hem Ana
+çekildiğinde `tarotReading.cost` bir kez düşülür; bakiye yetersizse kart eklenmez, uyarı kutusu + haptic feedback gösterilir. Hem Ana
 Sayfa hem Tarot ekranındaki `TopBar`, aynı bakiyeyi context üzerinden gösterir.
 ## Bonus: Loading / Skeleton
 `components/Skeleton.tsx` — Reanimated ile sürekli nabız gibi atan (`withRepeat`)
@@ -69,8 +68,7 @@ yerine "Bu kampanyanın süresi doldu — yeni fırsatlar yakında" mesajı gös
 ## Bonus: Responsive Tasarım
 `hooks/useResponsive.ts` — `useWindowDimensions` ile ekran genişliğine göre (768px eşik)
 tablet/telefon ayrımı yapar. Tablette Fal Türlerimiz grid'i 3 yerine 4 sütuna çıkar,
-içerik genişliği büyük ekranlarda 560px ile sınırlanıp ortalanır (edge-to-edge
-uzamasın diye).
+içerik genişliği büyük ekranlarda 560px ile sınırlanıp ortalanır.
 ## Bonus: Animasyon ve Sürükle-Bırak Fiziği
 `components/TarotCard.tsx` — Reanimated'ın `entering` animasyonlarıyla deste kartları
 sırayla (staggered) beliriyor, açılan kart `ZoomIn` ile yaylı şekilde slota oturuyor.
